@@ -2711,13 +2711,41 @@ function readSync(data, options) {
 	return parseZip(zip);
 }
 
+function readAsync(data, options, cb) {
+	var zip, d = data;
+	var o = options||{};
+	switch(o.type||"base64"){
+	case "file":
+		return _fs.readFile(data,function(err,_data) {
+			zip = new jszip(_data);
+			cb(parseZip(zip));
+		});
+		break;
+	default:
+	zip = new jszip(d, {base64:o.type==="base64"}); break;
+	}
+}
+
 function readFileSync(data, options) {
 	var o = options||{}; o.type = 'file';
 	return readSync(data, o);
 }
 
+function readFileAsync(data, options, cb) {
+	var o = options||{}; o.type = 'file';
+	if(typeof cb === 'function') return readAsync(data, o, cb);
+	if(typeof options === 'function' && !cb) {
+		o = {type:'file'};
+		cb = options;
+		return readAsync(data, o, cb);
+	}
+	return readSync(data,o);
+}
+
 XLSX.read = readSync;
+XLSX.readAsync = readAsync;
 XLSX.readFile = readFileSync;
+XLSX.readFileAsync = readFileAsync;
 XLSX.parseZip = parseZip;
 return this;
 

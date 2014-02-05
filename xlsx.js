@@ -2867,7 +2867,9 @@ XLSX.utils = {
 
 if(typeof require !== 'undefined' && typeof exports !== 'undefined') {
 	exports.read = XLSX.read;
+	exports.readAsync = XLSX.readAsync;
 	exports.readFile = XLSX.readFile;
+	exports.readFileAsync = XLSX.readFileAsync;
 	exports.utils = XLSX.utils;
 	exports.version = XLSX.version;
 	exports.main = function(args) {

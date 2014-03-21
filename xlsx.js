@@ -2753,8 +2753,13 @@ function readAsync(data, options, cb) {
 	switch(o.type||"base64"){
 	case "file":
 		return _fs.readFile(data,function(err,_data) {
-			zip = new jszip(_data);
-			cb(parseZip(zip));
+			if(err) return cb(err);
+			try{
+				zip = new jszip(_data);
+				cb(null,parseZip(zip));
+			}catch(e){
+				cb(e);
+			}
 		});
 		break;
 	default:

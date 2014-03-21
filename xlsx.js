@@ -548,7 +548,7 @@ var utf8read = function(orig) {
 	while (i < orig.length) {
 		c = orig.charCodeAt(i++);
 		if (c < 128) out += _chr(c);
-		else if(c>=128 && c<=191) out += charmap[c];
+		else if(c>=128 && c<=191) out += cp1252_to_utf8[c];
 		else {
 			c2 = orig.charCodeAt(i++);
 			if (c>191 && c<224) out += _chr((c & 31) << 6 | c2 & 63);
